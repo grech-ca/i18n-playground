@@ -82,10 +82,10 @@ const HomePage = () => {
   }, [template])
 
   return (
-    <div className="grid grid-rows-[1fr_auto] pt-12 h-full">
+    <div className="grid grid-rows-[1fr_auto] p-6 pt-12 h-full">
       <div className="flex flex-col gap-y-4 items-center justify-center">
         <div className="grid gap-y-5 text-white text-center mb-6">
-          <h1 className="text-5xl font-medium">🌍 i18n Playground</h1>
+          <h1 className="text-4xl md:text-5xl font-medium">🌍 i18n Playground</h1>
           <p className="text-xl">
             <span>Debug</span>{' '}
             <Link
@@ -97,7 +97,7 @@ const HomePage = () => {
             </Link>
           </p>
         </div>
-        <div className="grid gap gap-y-4 p-5  rounded-2xl bg-gray-200 w-[36rem]">
+        <div className="grid gap gap-y-4 p-5 rounded-2xl bg-gray-200 w-full md:w-[36rem]">
           <label className="grid gap-y-2">
             <span className="font-medium">Template</span>
             <input
@@ -139,7 +139,7 @@ const HomePage = () => {
           enterFrom="translate-y-4 opacity-0"
           enterTo="translate-y-0 opacity-100"
         >
-          <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-[36rem]">
+          <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
             <div className="pr-2">Result:</div>
             <div className="pl-2">{isTemplateValid ? interpolatedText : <Transition show appear enter="transition-all" enterFrom="-translate-x-2 opacity-0" enterTo="translate-x-0 opacity-100" className="px-1 mx-1 ring-4 rounded ring-red-100 bg-red-100 text-red-600 font-medium">Invalid template</Transition>}</div>
           </div>
