@@ -140,8 +140,8 @@ const HomePage = () => {
           enterTo="translate-y-0 opacity-100"
         >
           <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-[36rem]">
-            <span className="pr-2">Result:</span>
-            <span className="pl-2">{isTemplateValid ? interpolatedText : <span className="py-1 px-2 rounded bg-red-100 text-red-600 font-medium">Invalid template</span>}</span>
+            <div className="pr-2">Result:</div>
+            <div className="pl-2">{isTemplateValid ? interpolatedText : <Transition show appear enter="transition-all" enterFrom="-translate-x-2 opacity-0" enterTo="translate-x-0 opacity-100" className="py-1 px-2 rounded bg-red-100 text-red-600 font-medium">Invalid template</Transition>}</div>
           </div>
         </Transition>
       </div>
