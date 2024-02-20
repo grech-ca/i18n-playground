@@ -74,7 +74,9 @@ const HomePage = () => {
   const elements = useMemo(() => {
     try {
       const result = ICU.parse(template)
-      return result.filter(({type}) => ARGUMENT_ELEMENTS.includes(type as typeof ARGUMENT_ELEMENTS[number])) as ArgumentInputProps['element'][]
+      const argumentElements = result.filter(({type}) => ARGUMENT_ELEMENTS.includes(type as typeof ARGUMENT_ELEMENTS[number])) as ArgumentInputProps['element'][]
+      const uniqueArgumentElements = Object.values(Object.fromEntries(argumentElements.map(element => [element.value, element])))
+      return uniqueArgumentElements
     } catch (error) {
       console.log(error)
       return []
