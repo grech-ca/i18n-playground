@@ -1,17 +1,14 @@
 {
   "name": "i18n-playground",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@formatjs/icu-messageformat-parser": "^2.7.6",
+    "@headlessui/react": "^1.7.18",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
+    "@uiw/react-codemirror": "^4.21.21",
     "autoprefixer": "10.4.17",
     "clsx": "^2.1.0",
     "eslint": "8.56.0",
@@ -20,9 +17,18 @@
     "postcss": "8.4.35",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.50.1",
+    "react-textarea-autosize": "^8.5.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3",
     "use-intl": "^3.6.0"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   }
 }
