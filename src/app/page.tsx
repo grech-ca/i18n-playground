@@ -20,6 +20,25 @@ const validateTemplate = (template: string) => {
   }
 }
 
+const supportedPackages: {url: string; name: string}[] = [
+  {
+    name: 'next-intl',
+    url: 'https://www.npmjs.com/package/next-intl',
+  },
+  {
+    name: 'i18n',
+    url: 'https://www.npmjs.com/package/i18n',
+  },
+  {
+    name: 'i18next',
+    url: 'https://www.npmjs.com/package/i18next',
+  },
+  {
+    name: 'react-i18next',
+    url: 'https://www.npmjs.com/package/react-i18next',
+  },
+]
+
 const HomePage = () => {
   const [template, setTemplate] = useState('')
   const [isResultShown, setIsResultShown] = useState(false)
@@ -90,13 +109,17 @@ const HomePage = () => {
           <h1 className="text-4xl md:text-5xl font-medium">🌍 i18n Playground</h1>
           <p className="text-xl">
             <span>Debug</span>{' '}
-            <Link
-              href="https://npmjs.com/package/next-intl"
-              className="inline-block transition-transform active:scale-95 relative after:absolute after:top-full after:inset-x-0 after:bg-white after:h-0.5"
-              target="_blank"
-            >
-              next-intl
-            </Link>
+            {supportedPackages.map(({name, url}, index, array) => (
+              <Fragment key={name}>
+                <Link
+                  href={url}
+                  className="inline-block transition-transform active:scale-95 relative after:absolute after:top-[95%] after:inset-x-0 after:bg-white after:h-0.5"
+                  target="_blank"
+                >
+                  {name}
+                </Link>{index < (array.length - 1) && ', '}
+              </Fragment>
+            ))}
           </p>
         </div>
         <div className="grid gap gap-y-4 p-5 rounded-2xl bg-gray-200 w-full md:w-[36rem]">
