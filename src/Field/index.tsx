@@ -7,7 +7,7 @@ export type FieldProps = PropsWithChildren & {
 
 export const Field = ({children, label, div}: FieldProps) => {
   const formattedLabel = useMemo(() => {
-    return label.replace(/[a-z]/, char => char.toUpperCase()).replace(/_+/g, ' ')
+    return label.replace(/[a-z]/i, char => char.toUpperCase()).replace(/_+/g, ' ')
   }, [label])
 
   const Component = div ? 'div' : 'label'
