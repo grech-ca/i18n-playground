@@ -205,7 +205,7 @@ const HomePage = () => {
                     className={cn(
                       'leading-[1.4rem] h-[1rem] whitespace-pre',
                       {
-                        'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
+                        'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100 before:absolute before:-inset-y-2 before:-inset-x-0.5 outline-none before:rounded focus:before:ring focus:before:ring-blue-50': isArgumentElement,
                         'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
                         'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
                       }
