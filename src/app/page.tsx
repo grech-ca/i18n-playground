@@ -9,6 +9,7 @@ import {ArgumentInput, ArgumentInputProps} from 'ArgumentInput'
 import { Transition } from '@headlessui/react';
 import Link from 'next/link'
 import { cn } from 'common/helpers';
+import { isInputElement, isButtonElement } from 'common/type-guards';
 
 const ARGUMENT_ELEMENTS = [ICU.TYPE.argument, ICU.TYPE.plural, ICU.TYPE.select] as const
 type ArgumentType = typeof ARGUMENT_ELEMENTS[number]
@@ -40,14 +41,6 @@ const supportedPackages: {url: string; name: string}[] = [
     url: 'https://www.npmjs.com/package/react-i18next',
   },
 ]
-
-const isInputElement = (element: Element): element is HTMLInputElement => {
-  return element.tagName === 'INPUT'
-}
-
-const isButtonElement = (element: Element): element is HTMLButtonElement => {
-  return element.tagName === 'BUTTON'
-}
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
