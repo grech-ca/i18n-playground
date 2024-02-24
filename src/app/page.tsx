@@ -12,15 +12,7 @@ import { cn } from 'common/helpers';
 import { isInputElement, isButtonElement } from 'common/type-guards';
 import {ARGUMENT_ELEMENT_TYPES, supportedPackages} from 'common/data'
 import { ArgumentElementType } from 'common/types'
-
-const validateTemplate = (template: string) => {
-  try {
-    ICU.parse(template)
-    return true
-  } catch {
-    return false
-  }
-}
+import { validateMessageFormatTemplate } from 'common/helpers'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -71,7 +63,7 @@ const HomePage = () => {
 
   const interpolateText = useCallback(async () => {
     try {
-      if (validateTemplate(template)) {
+      if (validateMessageFormatTemplate(template)) {
         const t = createTranslator({messages: {template: template}, locale: 'en'})
 
         const result = t('template', values)
@@ -86,10 +78,10 @@ const HomePage = () => {
     interpolateText()
   }, [interpolateText])
 
-  const isTemplateValid = useMemo(() => validateTemplate(template), [template])
+  const isTemplateValid = useMemo(() => validateMessageFormatTemplate(template), [template])
 
   useEffect(() => {
-    if (template.length > 0 && validateTemplate(template) && !isResultShown) {
+    if (template.length > 0 && validateMessageFormatTemplate(template) && !isResultShown) {
       setIsResultShown(true)
     }
   }, [isResultShown, template])
