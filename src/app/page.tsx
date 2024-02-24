@@ -10,9 +10,8 @@ import { Transition } from '@headlessui/react';
 import Link from 'next/link'
 import { cn } from 'common/helpers';
 import { isInputElement, isButtonElement } from 'common/type-guards';
-
-const ARGUMENT_ELEMENTS = [ICU.TYPE.argument, ICU.TYPE.plural, ICU.TYPE.select] as const
-type ArgumentType = typeof ARGUMENT_ELEMENTS[number]
+import {ARGUMENT_ELEMENT_TYPES, supportedPackages} from 'common/data'
+import { ArgumentElementType } from 'common/types'
 
 const validateTemplate = (template: string) => {
   try {
@@ -22,25 +21,6 @@ const validateTemplate = (template: string) => {
     return false
   }
 }
-
-const supportedPackages: {url: string; name: string}[] = [
-  {
-    name: 'next-intl',
-    url: 'https://www.npmjs.com/package/next-intl',
-  },
-  {
-    name: 'i18n',
-    url: 'https://www.npmjs.com/package/i18n',
-  },
-  {
-    name: 'i18next',
-    url: 'https://www.npmjs.com/package/i18next',
-  },
-  {
-    name: 'react-i18next',
-    url: 'https://www.npmjs.com/package/react-i18next',
-  },
-]
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -125,7 +105,7 @@ const HomePage = () => {
   }, [template])
 
   const argumentElements = useMemo(() => {
-    const argumentElements = elements.filter(({type}) => ARGUMENT_ELEMENTS.includes(type as ArgumentType)) as ArgumentInputProps['element'][]
+    const argumentElements = elements.filter(({type}) => ARGUMENT_ELEMENT_TYPES.includes(type as ArgumentElementType)) as ArgumentInputProps['element'][]
     const uniqueArgumentElements = Object.values(Object.fromEntries(argumentElements.map(element => [element.value, element])))
     return uniqueArgumentElements
   }, [elements])
@@ -210,7 +190,7 @@ const HomePage = () => {
               {isTemplateValid && elements.map((element) => {
                 if (!('value' in element)) return null
 
-                const isArgumentElement = ARGUMENT_ELEMENTS.includes(element.type as ArgumentType)
+                const isArgumentElement = ARGUMENT_ELEMENT_TYPES.includes(element.type as ArgumentElementType)
 
                 const isTextValue = element.type === ICU.TYPE.argument
                 const isNumberValue = element.type === ICU.TYPE.plural

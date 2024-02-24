@@ -4,8 +4,6 @@ import { Field } from 'Field'
 import {Listbox, Transition} from '@headlessui/react'
 import {cn} from 'common/helpers'
 
-const ARGUMENT_ELEMENTS = [ICU.TYPE.argument, ICU.TYPE.plural, ICU.TYPE.select] as const
-
 export type ArgumentInputProps = {
   element: ICU.SelectElement | ICU.PluralElement | ICU.ArgumentElement
   value: string
