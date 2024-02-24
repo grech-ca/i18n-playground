@@ -8,8 +8,10 @@ import * as ICU from '@formatjs/icu-messageformat-parser'
 import {ArgumentInput, ArgumentInputProps} from 'ArgumentInput'
 import { Transition } from '@headlessui/react';
 import Link from 'next/link'
+import { cn } from 'common/helpers';
 
 const ARGUMENT_ELEMENTS = [ICU.TYPE.argument, ICU.TYPE.plural, ICU.TYPE.select] as const
+type ArgumentType = typeof ARGUMENT_ELEMENTS[number]
 
 const validateTemplate = (template: string) => {
   try {
@@ -39,6 +41,14 @@ const supportedPackages: {url: string; name: string}[] = [
   },
 ]
 
+const isInputElement = (element: Element): element is HTMLInputElement => {
+  return element.tagName === 'INPUT'
+}
+
+const isButtonElement = (element: Element): element is HTMLButtonElement => {
+  return element.tagName === 'BUTTON'
+}
+
 const HomePage = () => {
   const [template, setTemplate] = useState('')
   const [isResultShown, setIsResultShown] = useState(false)
@@ -48,6 +58,11 @@ const HomePage = () => {
   const [interpolatedText, setInterpolatedText] = useState('')
 
   const [values, setValues] = useState<Record<string, string>>({})
+
+  const [hoveredArgument, setHoveredArgument] = useState<string | null>(null)
+
+  const handleArgumentHover = useCallback((key: string) => () => setHoveredArgument(key), [])
+  const handleArgumentUnhover = useCallback(() => setHoveredArgument(null), [])
 
   const setValue = (key: string, value: string) => setValues(prev => ({
     ...prev,
@@ -64,6 +79,22 @@ const HomePage = () => {
 
     return prev
   }), [])
+
+  const handleArgumentClick = useCallback((key: string) => () => {
+    const argumentElement = document.querySelector(`*[data-argument-name="${key}"]`)
+
+    if (!argumentElement) return
+    
+    if (isInputElement(argumentElement)) {
+      argumentElement.focus()
+      argumentElement.select()
+    }
+
+    if (isButtonElement(argumentElement)) {
+      argumentElement.focus()
+    }
+
+  }, [])
 
   const interpolateText = useCallback(async () => {
     try {
@@ -93,14 +124,18 @@ const HomePage = () => {
   const elements = useMemo(() => {
     try {
       const result = ICU.parse(template)
-      const argumentElements = result.filter(({type}) => ARGUMENT_ELEMENTS.includes(type as typeof ARGUMENT_ELEMENTS[number])) as ArgumentInputProps['element'][]
-      const uniqueArgumentElements = Object.values(Object.fromEntries(argumentElements.map(element => [element.value, element])))
-      return uniqueArgumentElements
+      return result
     } catch (error) {
       console.log(error)
       return []
     }
   }, [template])
+
+  const argumentElements = useMemo(() => {
+    const argumentElements = elements.filter(({type}) => ARGUMENT_ELEMENTS.includes(type as ArgumentType)) as ArgumentInputProps['element'][]
+    const uniqueArgumentElements = Object.values(Object.fromEntries(argumentElements.map(element => [element.value, element])))
+    return uniqueArgumentElements
+  }, [elements])
 
   return (
     <div className="grid grid-rows-[1fr_auto] p-6 pt-12 h-full">
@@ -136,7 +171,7 @@ const HomePage = () => {
 
           {elements.length > 0 && (
             <div className="flex flex-col items-start gap-y-2">
-              {elements.map((element, index) => (
+              {argumentElements.map((element, index) => (
                 <Transition
                   key={index}
                   show
@@ -166,7 +201,59 @@ const HomePage = () => {
         >
           <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
             <div className="pr-2">Result:</div>
-            <div className="pl-2">{isTemplateValid ? interpolatedText : <Transition show appear enter="transition-all" enterFrom="-translate-x-2 opacity-0" enterTo="translate-x-0 opacity-100" className="px-1 mx-1 ring-4 rounded ring-red-100 bg-red-100 text-red-600 font-medium">Invalid template</Transition>}</div>
+            <div className="pl-2">
+              {!isTemplateValid && (
+                <Transition
+                  show
+                  appear
+                  enter="transition-all"
+                  enterFrom="-translate-x-2 opacity-0"
+                  enterTo="translate-x-0 opacity-100"
+                  className="px-1 mx-1 ring-4 rounded ring-red-100 bg-red-100 text-red-600 font-medium"
+                >
+                  Invalid template
+                </Transition>
+              )}
+              {isTemplateValid && elements.map((element) => {
+                if (!('value' in element)) return null
+
+                const isArgumentElement = ARGUMENT_ELEMENTS.includes(element.type as ArgumentType)
+
+                const isTextValue = element.type === ICU.TYPE.argument
+                const isNumberValue = element.type === ICU.TYPE.plural
+
+                const value = values[element.value]
+
+                let isEmpty = false
+
+                if (isArgumentElement) {
+                  if (isTextValue) {
+                    isEmpty = !value?.length
+                  } else if (isNumberValue) {
+                    isEmpty = isNaN(parseInt(value))
+                  }
+                }
+
+                return (
+                  <span
+                    key={element.value}
+                    className={cn(
+                      'leading-[1.4rem] h-[1rem] whitespace-pre',
+                      {
+                        'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
+                        'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
+                        'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
+                      }
+                    )}
+                    onClick={handleArgumentClick(element.value)}
+                    onMouseEnter={handleArgumentHover(element.value)}
+                    onMouseLeave={handleArgumentUnhover}
+                  >
+                    {isArgumentElement ? value : element.value}
+                  </span>
+                )
+              })}
+            </div>
           </div>
         </Transition>
       </div>
