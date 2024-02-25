@@ -13,6 +13,7 @@ import { isInputElement, isButtonElement } from 'common/type-guards';
 import {ARGUMENT_ELEMENT_TYPES, supportedPackages} from 'common/data'
 import { ArgumentElementType } from 'common/types'
 import { validateMessageFormatTemplate } from 'common/helpers'
+import { Result } from 'Result';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -26,7 +27,6 @@ const HomePage = () => {
 
   const [hoveredArgument, setHoveredArgument] = useState<string | null>(null)
 
-  const handleArgumentHover = useCallback((key: string) => () => setHoveredArgument(key), [])
   const handleArgumentUnhover = useCallback(() => setHoveredArgument(null), [])
 
   const setValue = (key: string, value: string) => setValues(prev => ({
@@ -45,7 +45,7 @@ const HomePage = () => {
     return prev
   }), [])
 
-  const handleArgumentClick = useCallback((key: string) => () => {
+  const handleArgumentClick = useCallback((key: string) => {
     const argumentElement = document.querySelector(`*[data-argument-name="${key}"]`)
 
     if (!argumentElement) return
@@ -157,70 +157,14 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        <Transition
-          as={Fragment}
-          show={isResultShown}
-          enter="transition-all"
-          enterFrom="translate-y-4 opacity-0"
-          enterTo="translate-y-0 opacity-100"
-        >
-          <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
-            <div className="pr-2">Result:</div>
-            <div className="pl-2">
-              {!isTemplateValid && (
-                <Transition
-                  show
-                  appear
-                  enter="transition-all"
-                  enterFrom="-translate-x-2 opacity-0"
-                  enterTo="translate-x-0 opacity-100"
-                  className="px-1 mx-1 ring-4 rounded ring-red-100 bg-red-100 text-red-600 font-medium"
-                >
-                  Invalid template
-                </Transition>
-              )}
-              {isTemplateValid && elements.map((element) => {
-                if (!('value' in element)) return null
-
-                const isArgumentElement = ARGUMENT_ELEMENT_TYPES.includes(element.type as ArgumentElementType)
-
-                const isTextValue = element.type === ICU.TYPE.argument
-                const isNumberValue = element.type === ICU.TYPE.plural
-
-                const value = values[element.value]
-
-                let isEmpty = false
-
-                if (isArgumentElement) {
-                  if (isTextValue) {
-                    isEmpty = !value?.length
-                  } else if (isNumberValue) {
-                    isEmpty = isNaN(parseInt(value))
-                  }
-                }
-
-                return (
-                  <span
-                    key={element.value}
-                    className={cn(
-                      'leading-[1.4rem] h-[1rem] whitespace-pre',
-                      {
-                        'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100 before:absolute before:-inset-y-2 before:-inset-x-0.5 outline-none before:rounded focus:before:ring focus:before:ring-blue-50': isArgumentElement,
-                        'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
-                        'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
-                      }
-                    )}
-                    onClick={handleArgumentClick(element.value)}
-                    onMouseEnter={handleArgumentHover(element.value)}
-                    onMouseLeave={handleArgumentUnhover}
-                  >
-                    {isArgumentElement ? value : element.value}
-                  </span>
-                )
-              })}
-            </div>
-          </div>
-        </Transition>
+        <Result
+          template={template}
+          elements={elements}
+          values={values}
+          onArgumentUnhover={handleArgumentUnhover}
+          onArgumentHover={setHoveredArgument}
+          onArgumentClick={handleArgumentClick}
+        />
       </div>
       <div className="text-center pb-8 text-lg">
         <span className="text-slate-600">by</span>{' '}
