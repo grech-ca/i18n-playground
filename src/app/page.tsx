@@ -1,7 +1,6 @@
 'use client'
 
 import { Fragment, useState, useMemo, useEffect, PropsWithChildren, useCallback } from 'react'
-import {Controller, SubmitHandler, useForm} from 'react-hook-form'
 import { createTranslator } from 'use-intl/core';
 import Textarea from 'react-textarea-autosize'
 import * as ICU from '@formatjs/icu-messageformat-parser'
@@ -17,16 +16,8 @@ import { Result } from 'Result';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
-  const [isResultShown, setIsResultShown] = useState(false)
-  
-  const {control, handleSubmit, watch} = useForm({ mode: 'all' })
-
-  const [interpolatedText, setInterpolatedText] = useState('')
-
   const [values, setValues] = useState<Record<string, string>>({})
-
   const [hoveredArgument, setHoveredArgument] = useState<string | null>(null)
-
   const handleArgumentUnhover = useCallback(() => setHoveredArgument(null), [])
 
   const setValue = (key: string, value: string) => setValues(prev => ({
@@ -58,33 +49,7 @@ const HomePage = () => {
     if (isButtonElement(argumentElement)) {
       argumentElement.focus()
     }
-
   }, [])
-
-  const interpolateText = useCallback(async () => {
-    try {
-      if (validateMessageFormatTemplate(template)) {
-        const t = createTranslator({messages: {template: template}, locale: 'en'})
-
-        const result = t('template', values)
-
-        setInterpolatedText(result)
-      }
-    } catch (error) {
-    }
-  }, [template, values])
-
-  useEffect(() => {
-    interpolateText()
-  }, [interpolateText])
-
-  const isTemplateValid = useMemo(() => validateMessageFormatTemplate(template), [template])
-
-  useEffect(() => {
-    if (template.length > 0 && validateMessageFormatTemplate(template) && !isResultShown) {
-      setIsResultShown(true)
-    }
-  }, [isResultShown, template])
 
   const elements = useMemo(() => {
     try {
