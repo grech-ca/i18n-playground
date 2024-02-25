@@ -39,7 +39,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
     >
       <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
         <div className="pr-2">Result:</div>
-        <div className="pl-2">
+        <div className="pl-2 whitespace-pre">
           {isTemplateValid ? elements.map((element) => {
             if (!('value' in element)) return null
 
@@ -64,9 +64,9 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
               <span
                 key={element.value}
                 className={cn(
-                  'leading-[1.4rem] h-[1rem] whitespace-pre',
+                  'leading-[1.4rem] h-[1rem]',
                   {
-                    'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100 before:absolute before:-inset-y-2 before:-inset-x-0.5 outline-none before:rounded focus:before:ring focus:before:ring-blue-50': isArgumentElement,
+                    'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
                     'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
                     'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
                   }
