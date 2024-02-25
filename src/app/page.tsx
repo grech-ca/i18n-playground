@@ -13,6 +13,7 @@ import {ARGUMENT_ELEMENT_TYPES, supportedPackages} from 'common/data'
 import { ArgumentElementType } from 'common/types'
 import { validateMessageFormatTemplate } from 'common/helpers'
 import { Result } from 'Result';
+import { Signature } from 'Signature';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -131,16 +132,7 @@ const HomePage = () => {
           onArgumentClick={handleArgumentClick}
         />
       </div>
-      <div className="text-center pb-8 text-lg">
-        <span className="text-slate-600">by</span>{' '}
-        <Link
-          href="https://grech.dev"
-          className="text-white"
-          target="_blank"
-        >
-          Mikhail Grechka
-        </Link>
-      </div>
+      <Signature />
     </div>
   )
 }
