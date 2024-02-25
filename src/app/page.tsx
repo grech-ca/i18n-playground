@@ -99,7 +99,7 @@ const HomePage = () => {
             />
           </label>
 
-          {elements.length > 0 && (
+          {argumentElements.length > 0 && (
             <div className="flex flex-col items-start gap-y-2">
               {argumentElements.map((element, index) => (
                 <Transition
