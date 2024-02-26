@@ -14,6 +14,7 @@ import { ArgumentElementType } from 'common/types'
 import { validateMessageFormatTemplate } from 'common/helpers'
 import { Result } from 'Result';
 import { Signature } from 'Signature';
+import { TemplateInput } from 'TemplateInput';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -89,16 +90,7 @@ const HomePage = () => {
           </p>
         </div>
         <div className="grid gap gap-y-4 p-5 rounded-2xl bg-gray-200 w-full md:w-[36rem]">
-          <label className="grid gap-y-2">
-            <span className="font-medium">Template</span>
-            <input
-              className="transition-all px-3 py-2 rounded-lg outline-none focus:focus-visible:ring-4 focus:focus-visible:ring-blue-400 resize-none"
-              value={template} 
-              autoFocus
-              onChange={e => setTemplate(e.target.value)}
-              placeholder="My name is {name}"
-            />
-          </label>
+          <TemplateInput value={template} onChange={setTemplate} />
 
           {argumentElements.length > 0 && (
             <div className="grid grid-flow-row grid-cols-2 items-start gap-2">
