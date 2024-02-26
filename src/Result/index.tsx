@@ -66,7 +66,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
                 className={cn(
                   'leading-[1.4rem] h-[1rem]',
                   {
-                    'relative after:absolute after:h-[3px] after:inset-x-0 cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
+                    'relative after:absolute after:h-[3px] after:inset-x-px cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
                     'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
                     'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
                   }
