@@ -101,7 +101,7 @@ const HomePage = () => {
           </label>
 
           {argumentElements.length > 0 && (
-            <div className="flex flex-col items-start gap-y-2">
+            <div className="grid grid-flow-row grid-cols-2 items-start gap-2">
               {argumentElements.map((element, index) => (
                 <Transition
                   key={index}
