@@ -40,7 +40,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
     >
       <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
         <div className="pr-2">Result:</div>
-        <div className={cn('pl-2', {'whitespace-pre': isWhitespacePreserved})}>
+        <div className={cn('pl-2', {'whitespace-break-spaces': isWhitespacePreserved})}>
           {isTemplateValid ? elements.map((element) => {
             if (!('value' in element)) return null
 
