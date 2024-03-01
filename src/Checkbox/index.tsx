@@ -12,9 +12,9 @@ export const Checkbox = ({onChange, checked, label}: CheckboxProps) => {
     <label className="grid gap-x-2 items-center grid-cols-[auto_1fr] cursor-pointer">
       <input checked={checked} onChange={({target}) => onChange(target.checked)} type="checkbox" hidden />
 
-      <Icon className="text-xl" />
+      <Icon className="text-2xl" />
 
-      <div className="text-sm select-none">{label}</div>
+      <div className="text-base select-none">{label}</div>
     </label>
   )
 }
