@@ -15,12 +15,14 @@ import { validateMessageFormatTemplate } from 'common/helpers'
 import { Result } from 'Result';
 import { Signature } from 'Signature';
 import { TemplateInput } from 'TemplateInput';
+import { Checkbox } from 'Checkbox';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
   const [values, setValues] = useState<Record<string, string>>({})
   const [hoveredArgument, setHoveredArgument] = useState<string | null>(null)
   const handleArgumentUnhover = useCallback(() => setHoveredArgument(null), [])
+  const [isWhitespacePreserved, setIsWhitespacePreserved] = useState(false)
 
   const setValue = (key: string, value: string) => setValues(prev => ({
     ...prev,
@@ -114,8 +116,15 @@ const HomePage = () => {
               ))}
             </div>
           )}
+
+          <Checkbox
+            onChange={setIsWhitespacePreserved}
+            checked={isWhitespacePreserved}
+            label="Enable pre-formatting"
+          />
         </div>
         <Result
+          isWhitespacePreserved={isWhitespacePreserved}
           template={template}
           elements={elements}
           values={values}

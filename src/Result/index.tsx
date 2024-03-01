@@ -12,9 +12,10 @@ export type ResultProps = {
   onArgumentClick: (key: string) => void
   onArgumentHover: (key: string) => void
   onArgumentUnhover: () => void
+  isWhitespacePreserved: boolean
 }
 
-export const Result = ({ template, values, elements, onArgumentClick, onArgumentHover, onArgumentUnhover }: ResultProps) => {
+export const Result = ({ template, values, elements, onArgumentClick, onArgumentHover, onArgumentUnhover, isWhitespacePreserved }: ResultProps) => {
   const handleArgumentClick = useCallback((key: string) => () => onArgumentClick(key), [onArgumentClick])
   const handleArgumentHover = useCallback((key: string) => () => onArgumentHover(key), [onArgumentHover])
   const handleArgumentUnhover = useCallback(() => onArgumentUnhover(), [onArgumentUnhover])
@@ -39,7 +40,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
     >
       <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
         <div className="pr-2">Result:</div>
-        <div className="pl-2 whitespace-pre">
+        <div className={cn('pl-2', {'whitespace-pre': isWhitespacePreserved})}>
           {isTemplateValid ? elements.map((element) => {
             if (!('value' in element)) return null
 
@@ -48,7 +49,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
             const isTextValue = element.type === ICU.TYPE.argument
             const isNumberValue = element.type === ICU.TYPE.plural
 
-            const value = values[element.value]
+            const value = isWhitespacePreserved ? values[element.value] : values[element.value]?.trim()
 
             let isEmpty = false
 
@@ -68,7 +69,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
                   {
                     'relative after:absolute after:h-[3px] after:inset-x-px cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
                     'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
-                    'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"]': isArgumentElement && isEmpty,
+                    'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"] whitespace-pre': isArgumentElement && isEmpty,
                   }
                 )}
                 onClick={handleArgumentClick(element.value)}
