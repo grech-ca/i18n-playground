@@ -16,6 +16,7 @@ import { Result } from 'Result';
 import { Signature } from 'Signature';
 import { TemplateInput } from 'TemplateInput';
 import { Checkbox } from 'Checkbox';
+import { Format, FormatRadio } from 'FormatRadio';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -23,6 +24,7 @@ const HomePage = () => {
   const [hoveredArgument, setHoveredArgument] = useState<string | null>(null)
   const handleArgumentUnhover = useCallback(() => setHoveredArgument(null), [])
   const [isWhitespacePreserved, setIsWhitespacePreserved] = useState(false)
+  const [selectedFormat, setSelectedFormat] = useState<Format>('messageformat')
 
   const setValue = (key: string, value: string) => setValues(prev => ({
     ...prev,
@@ -92,6 +94,8 @@ const HomePage = () => {
           </p>
         </div>
         <div className="grid gap gap-y-4 p-5 rounded-2xl bg-gray-200 w-full md:w-[36rem]">
+          <FormatRadio value={selectedFormat} onChange={setSelectedFormat} />
+
           <TemplateInput value={template} onChange={setTemplate} />
 
           {argumentElements.length > 0 && (
