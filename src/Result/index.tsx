@@ -4,6 +4,7 @@ import { ARGUMENT_ELEMENT_TYPES } from 'common/data'
 import { ArgumentElementType } from 'common/types'
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import {cn, validateMessageFormatTemplate} from 'common/helpers'
+import * as formatjs from '@formatjs/intl'
 
 export type ResultProps = {
   template: string
@@ -41,42 +42,91 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
       <div className="font-medium flex divide-x-2 divide-gray-300 bg-white rounded-xl p-3 w-full md:w-[36rem]">
         <div className="pr-2">Result:</div>
         <div className={cn('pl-2', {'whitespace-break-spaces': isWhitespacePreserved})}>
-          {isTemplateValid ? elements.map((element) => {
-            if (!('value' in element)) return null
+          {isTemplateValid ? elements.map((element, index) => {
+            let value: string = ''
 
-            const isArgumentElement = ARGUMENT_ELEMENT_TYPES.includes(element.type as ArgumentElementType)
+            if (ICU.isLiteralElement(element)) {
+              value = element.value
+            }
 
-            const isTextValue = element.type === ICU.TYPE.argument
-            const isNumberValue = element.type === ICU.TYPE.plural
+            if (ICU.isArgumentElement(element)) {
+              value = values[element.value]
+            }
 
-            const value = isWhitespacePreserved ? values[element.value] : values[element.value]?.trim()
+            if (ICU.isTagElement(element)) {
+              value = element.value
+            }
 
-            let isEmpty = false
+            if (ICU.isSelectElement(element)) {
+              value = values[element.value]
+            }
 
-            if (isArgumentElement) {
-              if (isTextValue) {
-                isEmpty = !value?.length
-              } else if (isNumberValue) {
-                isEmpty = isNaN(parseInt(value))
+            if (ICU.isNumberElement(element)) {
+              if (!isNaN(Number(values[element.value]))) {
+                value = formatjs.formatNumber(
+                  {
+                    locale: 'en-US',
+                    formats: {
+                      number: {
+                        integer: {
+                          maximumFractionDigits: 0,
+                        },
+                        currency: {
+                          style: 'currency',
+                        },
+
+                        percent: {
+                          style: 'percent',
+                        },
+                      },
+                    },
+                    onError: console.log,
+                  },
+                  formatjs.createFormatters().getNumberFormat,
+                  Number(values[element.value]),
+                  {style: element.style as any}
+                )
               }
             }
 
+            const isEmpty = value?.length === 0
+            // if (!('value' in element)) return null
+            //
+            // const isArgumentElement = ARGUMENT_ELEMENT_TYPES.includes(element.type as ArgumentElementType)
+            //
+            // const isTextValue = element.type === ICU.TYPE.argument
+            // const isNumberValue = element.type === ICU.TYPE.plural
+            //
+            // const value = isWhitespacePreserved ? values[element.value] : values[element.value]?.trim()
+            //
+            // let isEmpty = false
+            //
+            // if (isArgumentElement) {
+            //   if (isTextValue) {
+            //     isEmpty = !value?.length
+            //   } else if (isNumberValue) {
+            //     isEmpty = isNaN(parseInt(value))
+            //   }
+            // }
+            
+            const isLiteral = ICU.isLiteralElement(element)
+
             return (
               <span
-                key={element.value}
+                key={index}
                 className={cn(
                   'leading-[1.4rem] h-[1rem]',
                   {
-                    'relative after:absolute after:h-[3px] after:inset-x-px cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': isArgumentElement,
-                    'after:bg-gray-200 hover:after:bg-gray-500': isArgumentElement && !isEmpty,
-                    'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"] whitespace-pre': isArgumentElement && isEmpty,
+                    'relative after:absolute after:h-[3px] after:inset-x-px cursor-pointer after:top-[1.4rem] after:transition-all after:pointer-events-none after:duration-100': !isLiteral,
+                    'after:bg-gray-200 hover:after:bg-gray-500': !isLiteral && !isEmpty,
+                    'w-10 after:bg-red-200 hover:after:bg-red-500 before:[content:"__________"] whitespace-pre': !isLiteral && isEmpty,
                   }
                 )}
-                onClick={handleArgumentClick(element.value)}
-                onMouseEnter={handleArgumentHover(element.value)}
+                onClick={'value' in element ? handleArgumentClick(element.value) : undefined}
+                onMouseEnter={'value' in element ? handleArgumentHover(element.value) : undefined}
                 onMouseLeave={handleArgumentUnhover}
               >
-                {isArgumentElement ? value : element.value}
+                {value}
               </span>
             )
           }) : (

@@ -2,10 +2,10 @@ import {useEffect, Fragment} from 'react'
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import { Field } from 'Field'
 import {Listbox, Transition} from '@headlessui/react'
-import {cn} from 'common/helpers'
+import {cn, formatDecimal} from 'common/helpers'
 
 export type ArgumentInputProps = {
-  element: ICU.SelectElement | ICU.PluralElement | ICU.ArgumentElement
+  element: ICU.SelectElement | ICU.PluralElement | ICU.ArgumentElement | ICU.NumberElement
   value: string
   onChange: (value: string) => void
   onMount: () => void
@@ -23,7 +23,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
   const inputClassName = cn('outline-none bg-gray-100 transition-all rounded-lg px-2 py-1 focus:bg-white focus:ring focus:ring-blue-400')
   const optionClassName = cn('transition-all [&:not(&:disabled)]:active:scale-95 text-left [&:not(&:disabled)]cursor-pointer rounded-lg px-2 py-1 bg-gray-100 disabled:bg-blue-200')
 
-  if (element.type === ICU.TYPE.select) {
+  if (ICU.isSelectElement(element)) {
     const options = Object.entries(element.options).filter(([_key, option]) => option.value.length > 0)
 
     return (
@@ -44,7 +44,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
     )
   }
 
-  if (element.type === ICU.TYPE.plural) {
+  if (ICU.isPluralElement(element)) {
     return (
       <Field label={element.value}>
         <input
@@ -58,12 +58,26 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
     )
   }
 
-  if (element.type === ICU.TYPE.argument) {
+  if (ICU.isArgumentElement(element)) {
     return (
       <Field label={element.value}>
         <input
           value={value}
           onChange={e => onChange(e.target.value)}
+          type="text"
+          className={inputClassName}
+          data-argument-name={element.value}
+        />
+      </Field>
+    )
+  }
+
+  if (ICU.isNumberElement(element)) {
+    return (
+      <Field label={element.value}>
+        <input
+          value={value}
+          onChange={e => onChange(formatDecimal(e.target.value))}
           type="text"
           className={inputClassName}
           data-argument-name={element.value}

@@ -4,6 +4,7 @@
   "dependencies": {
     "@codemirror/lang-json": "^6.0.1",
     "@formatjs/icu-messageformat-parser": "^2.7.6",
+    "@formatjs/intl": "^2.10.0",
     "@headlessui/react": "^1.7.18",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
