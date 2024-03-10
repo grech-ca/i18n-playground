@@ -124,7 +124,7 @@ const HomePage = () => {
           <Checkbox
             onChange={setIsWhitespacePreserved}
             checked={isWhitespacePreserved}
-            label="Enable pre-formatting"
+            label="Enable whitespace preservation"
           />
         </div>
         <Result
