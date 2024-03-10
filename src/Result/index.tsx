@@ -84,7 +84,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
                   },
                   formatjs.createFormatters().getNumberFormat,
                   Number(values[element.value]),
-                  {style: element.style as any}
+                  ICU.isNumberSkeleton(element.style) ? element.style.parsedOptions : {style: element.style as any}
                 )
               }
             }
