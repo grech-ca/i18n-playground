@@ -9,7 +9,7 @@ export const formatDecimal = (value: string) => {
     if (isDot && (index === 0 || dotExists)) return
     if (isDot) dotExists = true
 
-    if (isNaN(Number(char)) &&  !isDot) return
+    if (isNaN(parseFloat(char)) &&  !isDot) return
 
     result += char
   })

@@ -62,7 +62,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
             }
 
             if (ICU.isNumberElement(element)) {
-              if (!isNaN(Number(values[element.value]))) {
+              if (!isNaN(parseFloat(values[element.value]))) {
                 value = formatjs.formatNumber(
                   {
                     locale: 'en-US',
@@ -83,7 +83,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
                     onError: console.log,
                   },
                   formatjs.createFormatters().getNumberFormat,
-                  Number(values[element.value]),
+                  parseFloat(values[element.value]),
                   ICU.isNumberSkeleton(element.style) ? element.style.parsedOptions : {style: element.style as any}
                 )
               }
