@@ -108,6 +108,15 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
               }
             }
 
+            if (ICU.isSelectElement(element)) {
+              const argumentValue = values[element.value]
+
+              const option = element.options[argumentValue] ?? element.options.other
+
+
+              value = option.value.map(element => ICU.isLiteralElement(element) ? element.value : '').join('')
+            }
+
             const isEmpty = value?.length === 0
             
             const isLiteral = ICU.isLiteralElement(element)
