@@ -76,6 +76,38 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
               }
             }
 
+            if (ICU.isPluralElement(element)) {
+              const argumentValue = parseFloat(values[element.value])
+
+              if (!isNaN(argumentValue)) {
+                let option = element.options[`=${argumentValue}`]
+
+                if (!option) {
+                  const rule = formatjs
+                    .createFormatters()
+                    .getPluralRules(
+                      'en-US',
+                      {type: element.pluralType}
+                    )
+                    .select(argumentValue - element.offset ?? 0)
+
+                  option = element.options[rule] ?? element.options.other
+                }
+
+                value = option.value.map(element => {
+                  if (ICU.isPoundElement(element)) {
+                    return argumentValue
+                  }
+
+                  if (ICU.isLiteralElement(element)) {
+                    return element.value
+                  }
+
+                  return ''
+                }).join('')
+              }
+            }
+
             const isEmpty = value?.length === 0
             
             const isLiteral = ICU.isLiteralElement(element)
