@@ -3,6 +3,7 @@ import * as ICU from '@formatjs/icu-messageformat-parser'
 import { Field } from 'Field'
 import {Listbox, Transition} from '@headlessui/react'
 import {cn, formatDecimal} from 'common/helpers'
+import {MdOutlineTextFields, MdNumbers, MdFormatListBulleted, MdForest} from 'react-icons/md'
 
 export type ArgumentInputProps = {
   element: ICU.SelectElement | ICU.PluralElement | ICU.ArgumentElement | ICU.NumberElement
@@ -27,7 +28,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
     const options = Object.entries(element.options).filter(([_key, option]) => option.value.length > 0)
 
     return (
-      <Field div label={element.value}>
+      <Field div icon={MdFormatListBulleted} label={element.value}>
         {options.map(([key, option]) => 
           <button
             key={key}
@@ -46,7 +47,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
 
   if (ICU.isPluralElement(element)) {
     return (
-      <Field label={element.value}>
+      <Field icon={MdForest} label={element.value}>
         <input
           value={Math.max(0, Number(value))}
           onChange={e => onChange(Math.max(0, parseInt(e.target.value)).toString())}
@@ -60,7 +61,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
 
   if (ICU.isArgumentElement(element)) {
     return (
-      <Field label={element.value}>
+      <Field icon={MdOutlineTextFields} label={element.value}>
         <input
           value={value}
           onChange={e => onChange(e.target.value)}
@@ -74,7 +75,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
 
   if (ICU.isNumberElement(element)) {
     return (
-      <Field label={element.value}>
+      <Field icon={MdNumbers} label={element.value}>
         <input
           value={value}
           onChange={e => onChange(formatDecimal(e.target.value))}
