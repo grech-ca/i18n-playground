@@ -66,20 +66,7 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
                 value = formatjs.formatNumber(
                   {
                     locale: 'en-US',
-                    formats: {
-                      number: {
-                        integer: {
-                          maximumFractionDigits: 0,
-                        },
-                        currency: {
-                          style: 'currency',
-                        },
-
-                        percent: {
-                          style: 'percent',
-                        },
-                      },
-                    },
+                    formats: {},
                     onError: console.log,
                   },
                   formatjs.createFormatters().getNumberFormat,
