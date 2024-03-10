@@ -90,24 +90,6 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
             }
 
             const isEmpty = value?.length === 0
-            // if (!('value' in element)) return null
-            //
-            // const isArgumentElement = ARGUMENT_ELEMENT_TYPES.includes(element.type as ArgumentElementType)
-            //
-            // const isTextValue = element.type === ICU.TYPE.argument
-            // const isNumberValue = element.type === ICU.TYPE.plural
-            //
-            // const value = isWhitespacePreserved ? values[element.value] : values[element.value]?.trim()
-            //
-            // let isEmpty = false
-            //
-            // if (isArgumentElement) {
-            //   if (isTextValue) {
-            //     isEmpty = !value?.length
-            //   } else if (isNumberValue) {
-            //     isEmpty = isNaN(parseInt(value))
-            //   }
-            // }
             
             const isLiteral = ICU.isLiteralElement(element)
 
