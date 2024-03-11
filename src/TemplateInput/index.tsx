@@ -23,6 +23,7 @@ export const TemplateInput = ({value, onChange}: TemplateInputProps) => {
         autoFocus
         onChange={handleChange}
         placeholder="My name is {name}"
+        spellCheck={false}
       />
       <CopyButton onClick={handleCopy} />
     </label>
