@@ -40,7 +40,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
             onClick={() => onChange(key)}
             data-argument-name={element.value}
           >
-            {key} ({(option.value[0] as ICU.SelectElement).value.replace(/^#/, 'N')})
+            {(option.value[0] as ICU.SelectElement).value.replace(/^#/, 'N')}
           </button>
         )}
       </Field>
