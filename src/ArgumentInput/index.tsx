@@ -24,7 +24,7 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
   }, [])
 
   const inputClassName = cn('outline-none bg-gray-100 transition-all rounded-lg px-2 py-1 focus:bg-white focus:ring focus:ring-blue-400')
-  const optionClassName = cn('transition-all [&:not(&:disabled)]:active:scale-95 text-left [&:not(&:disabled)]cursor-pointer rounded-lg px-2 py-1 bg-gray-100 disabled:bg-blue-200')
+  const optionClassName = cn('transition-all [&:not(&:disabled)]:active:scale-95 text-left [&:not(&:disabled)]cursor-pointer focus:ring focus:ring-blue-400 focus:bg-white rounded-lg px-2 py-1 bg-gray-100 outline-none disabled:bg-blue-200')
 
   if (ICU.isSelectElement(element)) {
     const options = Object.entries(element.options).filter(([_key, option]) => option.value.length > 0)
