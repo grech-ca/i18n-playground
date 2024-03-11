@@ -2,11 +2,13 @@ import {useEffect, Fragment} from 'react'
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import { Field } from 'Field'
 import {Listbox, Transition} from '@headlessui/react'
-import {cn, formatDecimal} from 'common/helpers'
-import {MdOutlineTextFields, MdNumbers, MdFormatListBulleted, MdForest} from 'react-icons/md'
+import {cn, dateToTime, formatDecimal, timeToDate} from 'common/helpers'
+import {MdOutlineTextFields, MdNumbers, MdFormatListBulleted, MdForest, MdAccessTime, MdCalendarToday} from 'react-icons/md'
+import { EditableElement } from 'common/types/editable-element'
+import dayjs from 'dayjs'
 
 export type ArgumentInputProps = {
-  element: ICU.SelectElement | ICU.PluralElement | ICU.ArgumentElement | ICU.NumberElement
+  element: EditableElement
   value: string
   onChange: (value: string) => void
   onMount: () => void
@@ -82,6 +84,36 @@ export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: Ar
           type="text"
           className={inputClassName}
           data-argument-name={element.value}
+        />
+      </Field>
+    )
+  }
+
+  if (ICU.isDateElement(element)) {
+    return (
+      <Field icon={MdCalendarToday} label={element.value}>
+        <input
+          data-argument-name={element.value}
+          type="datetime-local"
+          step={1}
+          value={value}
+          onChange={({target: {value}}) => onChange(value)}
+          className={cn(inputClassName, 'appearance-none')}
+        />
+      </Field>
+    )
+  }
+
+  if (ICU.isTimeElement(element)) {
+    return (
+      <Field icon={MdAccessTime} label={element.value}>
+        <input
+          data-argument-name={element.value}
+          value={value}
+          type="time"
+          step={1}
+          className={cn(inputClassName, 'appearance-none')}
+          onChange={({target: {value}}) => onChange(value)}
         />
       </Field>
     )

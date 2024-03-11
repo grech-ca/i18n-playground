@@ -1,9 +1,8 @@
 import {Fragment, useCallback, useEffect, useMemo, useState} from 'react'
 import {Transition} from '@headlessui/react'
-import { ARGUMENT_ELEMENT_TYPES } from 'common/data'
-import { ArgumentElementType } from 'common/types'
 import * as ICU from '@formatjs/icu-messageformat-parser'
-import {cn, validateMessageFormatTemplate} from 'common/helpers'
+import IntlMessageFormat from 'intl-messageformat'
+import {cn, timeToDate, validateMessageFormatTemplate} from 'common/helpers'
 import * as formatjs from '@formatjs/intl'
 
 export type ResultProps = {
@@ -115,6 +114,40 @@ export const Result = ({ template, values, elements, onArgumentClick, onArgument
 
 
               value = option.value.map(element => ICU.isLiteralElement(element) ? element.value : '').join('')
+            }
+
+            if (ICU.isTimeElement(element)) {
+              const argumentValue = values[element.value]
+
+              if (argumentValue) {
+                const style =
+                  typeof element.style === 'string'
+                    ? IntlMessageFormat.formats.time[element.style]
+                    : ICU.isDateTimeSkeleton(element.style)
+                    ? element.style.parsedOptions
+                    : IntlMessageFormat.formats.time.medium
+
+                  value = formatjs
+                    .createFormatters()
+                    .getDateTimeFormat('en-US', style)
+                    .format(timeToDate(argumentValue, true))
+              }
+            }
+
+            if (ICU.isDateElement(element)) {
+              const argumentValue = values[element.value]
+
+              if (argumentValue) {
+                const style =
+                  typeof element.style === 'string'
+                    ? IntlMessageFormat.formats.date[element.style]
+                    : ICU.isDateTimeSkeleton(element.style)
+                    ? element.style.parsedOptions
+                    : undefined
+                  value = formatjs.createFormatters()
+                    .getDateTimeFormat('en-US', style)
+                    .format(new Date(argumentValue))
+              }
             }
 
             const isEmpty = value?.length === 0

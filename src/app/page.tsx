@@ -9,14 +9,14 @@ import { Transition } from '@headlessui/react';
 import Link from 'next/link'
 import { cn } from 'common/helpers';
 import { isInputElement, isButtonElement } from 'common/type-guards';
-import {ARGUMENT_ELEMENT_TYPES, supportedPackages} from 'common/data'
-import { ArgumentElementType } from 'common/types'
+import {supportedPackages} from 'common/data'
 import { validateMessageFormatTemplate } from 'common/helpers'
 import { Result } from 'Result';
 import { Signature } from 'Signature';
 import { TemplateInput } from 'TemplateInput';
 import { Checkbox } from 'Checkbox';
 import { Format, FormatRadio } from 'FormatRadio';
+import { EditableElement } from 'common/types/editable-element';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -68,7 +68,7 @@ const HomePage = () => {
   }, [template])
 
   const argumentElements = useMemo(() => {
-    const argumentElements = elements.filter(({type}) => ARGUMENT_ELEMENT_TYPES.includes(type as ArgumentElementType)) as ArgumentInputProps['element'][]
+    const argumentElements = elements.filter(element => !(ICU.isLiteralElement(element) || ICU.isTagElement(element) || ICU.isPoundElement(element))) as EditableElement[]
     const uniqueArgumentElements = Object.values(Object.fromEntries(argumentElements.map(element => [element.value, element])))
     return uniqueArgumentElements
   }, [elements])
