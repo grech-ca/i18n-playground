@@ -85,7 +85,7 @@ const HomePage = () => {
   }, [])
 
   return (
-    <div className="grid grid-rows-[1fr_auto] p-6 pt-12 h-full">
+    <div className="grid grid-rows-[1fr_auto] gap-y-10 p-6 pb-[10dvh] pt-[24dvh] h-full">
       <div className="flex flex-col gap-y-4 items-center justify-center">
         <div className="grid gap-y-5 text-white text-center mb-6">
           <h1 className="text-4xl md:text-5xl font-medium">🌍 i18n Playground</h1>

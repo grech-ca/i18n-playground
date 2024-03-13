@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body className={cn(inter.className, 'h-[100dvh] bg-slate-900')}>{children}</body>
+      <body className={cn(inter.className, 'bg-slate-900')}>{children}</body>
     </html>
   )
 }
