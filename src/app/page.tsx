@@ -17,6 +17,7 @@ import { TemplateInput } from 'TemplateInput';
 import { Checkbox } from 'Checkbox';
 import { Format, FormatRadio } from 'FormatRadio';
 import { EditableElement } from 'common/types/editable-element';
+import { Example, ExamplesList } from 'ExamplesList';
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -73,6 +74,16 @@ const HomePage = () => {
     return uniqueArgumentElements
   }, [elements])
 
+  useEffect(() => {
+    const defaultValues = Object.fromEntries(argumentElements.map(({value}) => [value, '']))
+    setValues(prev => ({...defaultValues, ...prev}))
+  }, [argumentElements])
+
+  const handleExampleClick = useCallback(({template, values}: Example) => {
+    setTemplate(template)
+    setValues(values)
+  }, [])
+
   return (
     <div className="grid grid-rows-[1fr_auto] p-6 pt-12 h-full">
       <div className="flex flex-col gap-y-4 items-center justify-center">
@@ -96,6 +107,8 @@ const HomePage = () => {
         <div className="grid gap gap-y-4 p-5 rounded-2xl bg-gray-200 w-full md:w-[36rem]">
           <FormatRadio value={selectedFormat} onChange={setSelectedFormat} />
 
+          <ExamplesList onClickExample={handleExampleClick} />
+
           <TemplateInput value={template} onChange={setTemplate} />
 
           {argumentElements.length > 0 && (
@@ -113,8 +126,6 @@ const HomePage = () => {
                     element={element}
                     value={values[element.value]}
                     onChange={value => setValue(element.value, value)}
-                    onMount={registerValue(element.value)}
-                    onUnmount={unregisterValue(element.value)}
                   />
                 </Transition>
               ))}

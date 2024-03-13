@@ -6,20 +6,14 @@ import {cn, dateToTime, formatDecimal, timeToDate} from 'common/helpers'
 import {MdOutlineTextFields, MdNumbers, MdFormatListBulleted, MdForest, MdAccessTime, MdCalendarToday} from 'react-icons/md'
 import { EditableElement } from 'common/types/editable-element'
 import dayjs from 'dayjs'
-import {useMount, useUnmount} from 'react-use'
 
 export type ArgumentInputProps = {
   element: EditableElement
   value: string
   onChange: (value: string) => void
-  onMount: () => void
-  onUnmount: () => void
 }
 
-export const ArgumentInput = ({element, value, onChange, onMount, onUnmount}: ArgumentInputProps) => {
-  useMount(onMount)
-  useUnmount(onUnmount)
-
+export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) => {
   const inputClassName = cn('outline-none bg-gray-100 transition-all rounded-lg px-2 py-1 focus:bg-white focus:ring focus:ring-blue-400')
   const optionClassName = cn('transition-all [&:not(&:disabled)]:active:scale-95 text-left [&:not(&:disabled)]cursor-pointer focus:ring focus:ring-blue-400 focus:bg-white rounded-lg px-2 py-1 bg-gray-100 outline-none disabled:bg-blue-200')
 
