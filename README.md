@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Tutorial][tutorial]
 
-## Getting Started
+# 🌍 i18n Playground
 
-First, run the development server:
+A tool for instant debugging various internationalization formats.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+i18n Playground is a web-based tool designed to facilitate the debugging of internationalization formats. It provides developers with an intuitive interface to instantly visualize and test various internationalization formats, ensuring seamless localization of web applications.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Currently, i18n Playground supports the "messageformat" format, allowing developers to debug and validate their messageformat templates. However, we have plans to expand its capabilities to include support for other popular internationalization formats such as "fluent," "shopify format," and "polyglot."
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+## ✅ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [x] UI/UX
+  - [x] **Example Presets**: Explore predefined examples to understand how internationalization formats work.
+  - [x] **Template Input**: Input your messageformat template for instant debugging and validation.
+  - [x] **Template Validity Indicator**: Easily identify the validity of your messageformat template.
+  - [x] **Inputs Form Based on Keys**: Dynamically generate input fields based on keys in the messageformat template.
+    - [x] Date input
+    - [x] Text input
+    - [x] Number input
+    - [x] Select input
+    - [x] Time input
+    - [x] Plural input
+  - [x] **Whitespace Preservation**: Toggle whitespace preservation to ensure accurate rendering.
+  - [ ] Highlight value in the result string if the corresponding input is focused
+- [ ] **Support for More Formats**:
+  - [ ] fluent format
+  - [ ] shopify format
+  - [ ] polyglot formats
+- [ ] **History**: Keep track of past debugging sessions for improved workflow and collaboration.
 
-## Learn More
+## ℹ️ Usage
 
-To learn more about Next.js, take a look at the following resources:
+To use i18n Playground, simply visit the [website](https://i18n-playground.com) and start debugging your internationalization formats right away.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!--
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+We welcome contributions from the community to enhance the capabilities of i18n Playground. Whether it's adding support for new internationalization formats, improving the user interface, or fixing bugs, every contribution is valuable. Please refer to the [Contribution Guidelines](CONTRIBUTING.md) for more information.
 
-## Deploy on Vercel
+-->
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚖️ License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+[tutorial]: contrib/tutorial.webp
