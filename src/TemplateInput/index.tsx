@@ -1,10 +1,12 @@
-import {ChangeEventHandler, ComponentProps, forwardRef, useCallback, useMemo} from 'react'
+import {ChangeEventHandler, useCallback, useMemo} from 'react'
+
 import copy from 'copy-to-clipboard'
-import {cn, validateMessageFormatTemplate} from 'common/helpers'
-import {MdContentCopy as CopyIcon, MdDone, MdClose} from 'react-icons/md'
-import { CopyButton } from 'CopyButton'
+import {MdDone, MdClose} from 'react-icons/md'
 import Textarea from 'react-textarea-autosize'
-import { Transition } from '@headlessui/react'
+import {Transition} from '@headlessui/react'
+
+import {CopyButton} from 'CopyButton'
+import {validateMessageFormatTemplate} from 'common/helpers'
 
 export type TemplateInputProps = {
   value: string
@@ -12,16 +14,16 @@ export type TemplateInputProps = {
 }
 
 export const TemplateInput = ({value, onChange}: TemplateInputProps) => {
-  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(e => onChange(e.target.value), [onChange])
+  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => onChange(e.target.value), [onChange])
   const handleCopy = useCallback(() => copy(value), [value])
 
   const isTemplateValid = useMemo(() => validateMessageFormatTemplate(value), [value])
 
   return (
-    <label className="grid gap-2 grid-cols-[1fr_auto]">
-      <div className="flex gap-x-1.5 col-span-2">
+    <label className="grid grid-cols-[1fr_auto] gap-2">
+      <div className="col-span-2 flex gap-x-1.5">
         <span className="font-medium">Template</span>
-        <div className="w-4 relative flex items-center justify-center">
+        <div className="relative flex w-4 items-center justify-center">
           <Transition
             show={isTemplateValid && Boolean(value)}
             className="absolute"
@@ -49,8 +51,8 @@ export const TemplateInput = ({value, onChange}: TemplateInputProps) => {
         </div>
       </div>
       <Textarea
-        className="transition-[box-shadow,color] duration-150 px-3 py-2 h-10 rounded-lg outline-none focus:focus-visible:ring-4 focus:focus-visible:ring-blue-400 resize-none"
-        value={value} 
+        className="h-10 resize-none rounded-lg px-3 py-2 outline-none transition-[box-shadow,color] duration-150 focus:focus-visible:ring-4 focus:focus-visible:ring-blue-400"
+        value={value}
         autoFocus
         onChange={handleChange}
         placeholder="My name is {name}"

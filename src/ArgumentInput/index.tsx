@@ -1,11 +1,17 @@
-import {useEffect, Fragment} from 'react'
 import * as ICU from '@formatjs/icu-messageformat-parser'
-import { Field } from 'Field'
-import {Listbox, Transition} from '@headlessui/react'
-import {cn, dateToTime, formatDecimal, timeToDate} from 'common/helpers'
-import {MdOutlineTextFields, MdNumbers, MdFormatListBulleted, MdForest, MdAccessTime, MdCalendarToday} from 'react-icons/md'
-import { EditableElement } from 'common/types/editable-element'
-import dayjs from 'dayjs'
+import {
+  MdOutlineTextFields,
+  MdNumbers,
+  MdFormatListBulleted,
+  MdForest,
+  MdAccessTime,
+  MdCalendarToday,
+} from 'react-icons/md'
+
+import {EditableElement} from 'common/types/editable-element'
+
+import {cn, formatDecimal} from 'common/helpers'
+import {Field} from 'Field'
 
 export type ArgumentInputProps = {
   element: EditableElement
@@ -14,15 +20,19 @@ export type ArgumentInputProps = {
 }
 
 export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) => {
-  const inputClassName = cn('outline-none bg-gray-100 transition-all rounded-lg px-2 py-1 focus:bg-white focus:ring focus:ring-blue-400')
-  const optionClassName = cn('transition-all [&:not(&:disabled)]:active:scale-95 text-left [&:not(&:disabled)]cursor-pointer focus:ring focus:ring-blue-400 focus:bg-white rounded-lg px-2 py-1 bg-gray-100 outline-none disabled:bg-blue-200')
+  const inputClassName = cn(
+    'rounded-lg bg-gray-100 px-2 py-1 outline-none transition-all focus:bg-white focus:ring focus:ring-blue-400',
+  )
+  const optionClassName = cn(
+    '[&:not(&:disabled)]cursor-pointer rounded-lg bg-gray-100 px-2 py-1 text-left outline-none transition-all focus:bg-white focus:ring focus:ring-blue-400 disabled:bg-blue-200 [&:not(&:disabled)]:active:scale-95',
+  )
 
   if (ICU.isSelectElement(element)) {
     const options = Object.entries(element.options).filter(([_key, option]) => option.value.length > 0)
 
     return (
       <Field div icon={MdFormatListBulleted} label={element.value}>
-        {options.map(([key, option]) => 
+        {options.map(([key, option]) => (
           <button
             key={key}
             value={key}
@@ -33,7 +43,7 @@ export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) =>
           >
             {(option.value[0] as ICU.SelectElement).value.replace(/^#/, 'N')}
           </button>
-        )}
+        ))}
       </Field>
     )
   }
@@ -43,7 +53,7 @@ export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) =>
       <Field icon={MdForest} label={element.value}>
         <input
           value={Math.max(0, Number(value))}
-          onChange={e => onChange(Math.max(0, parseInt(e.target.value)).toString())}
+          onChange={(e) => onChange(Math.max(0, parseInt(e.target.value)).toString())}
           type="number"
           className={inputClassName}
           data-argument-name={element.value}
@@ -57,7 +67,7 @@ export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) =>
       <Field icon={MdOutlineTextFields} label={element.value}>
         <input
           value={value}
-          onChange={e => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
           type="text"
           className={inputClassName}
           data-argument-name={element.value}
@@ -71,7 +81,7 @@ export const ArgumentInput = ({element, value, onChange}: ArgumentInputProps) =>
       <Field icon={MdNumbers} label={element.value}>
         <input
           value={value}
-          onChange={e => onChange(formatDecimal(e.target.value))}
+          onChange={(e) => onChange(formatDecimal(e.target.value))}
           type="text"
           className={inputClassName}
           data-argument-name={element.value}

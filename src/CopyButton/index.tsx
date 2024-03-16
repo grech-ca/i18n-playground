@@ -1,7 +1,9 @@
 import {useCallback, useState, useRef} from 'react'
+
 import {Transition} from '@headlessui/react'
-import {cn} from 'common/helpers'
 import {MdContentCopy as CopyIcon} from 'react-icons/md'
+
+import {cn} from 'common/helpers'
 
 export type CopyButtonProps = {
   onClick: () => void
@@ -26,17 +28,12 @@ export const CopyButton = ({onClick, className}: CopyButtonProps) => {
   }, [onClick])
 
   return (
-    <div
-      className={cn(
-        'relative',
-        className
-      )}
-    >
+    <div className={cn('relative', className)}>
       <Transition
         show={isNotificationVisible}
         className={cn(
-          'absolute left-1/2 -translate-x-1/2 w-fit text-sm text-center -top-9',
-          'flex items-center px-2 py-1 rounded-lg bg-white pointer-events-none'
+          'absolute -top-9 left-1/2 w-fit -translate-x-1/2 text-center text-sm',
+          'pointer-events-none flex items-center rounded-lg bg-white px-2 py-1',
         )}
         enter="transition-all origin-bottom"
         enterFrom="opacity-0 translate-y-2"
@@ -49,7 +46,7 @@ export const CopyButton = ({onClick, className}: CopyButtonProps) => {
       </Transition>
       <button
         className={cn(
-          'aspect-square bg-white rounded-lg h-10 flex items-center justify-center outline-none',
+          'flex aspect-square h-10 items-center justify-center rounded-lg bg-white outline-none',
           'focus:focus-visible:ring-4 focus:focus-visible:ring-blue-400',
           'transition-all active:scale-90 active:bg-stone-100',
         )}

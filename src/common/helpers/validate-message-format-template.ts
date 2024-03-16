@@ -8,4 +8,3 @@ export const validateMessageFormatTemplate = (template: string) => {
     return false
   }
 }
-

@@ -1,7 +1,7 @@
 import {cn} from 'common/helpers'
 
 const FORMATS = ['messageformat'] as const
-export type Format = typeof FORMATS[number]
+export type Format = (typeof FORMATS)[number]
 
 export type FormatRadio = {
   value: Format
@@ -18,8 +18,8 @@ export const FormatRadio = ({value, onChange}: FormatRadio) => {
             <label
               key={format}
               className={cn(
-                'px-2 py-1 bg-white rounded-lg cursor-pointer select-none h-10 flex items-center active:scale-95 transition-all',
-                { 'opacity-50': format !== value },
+                'flex h-10 cursor-pointer select-none items-center rounded-lg bg-white px-2 py-1 transition-all active:scale-95',
+                {'opacity-50': format !== value},
               )}
             >
               <input

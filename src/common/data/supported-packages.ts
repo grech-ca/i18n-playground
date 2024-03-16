@@ -16,4 +16,3 @@ export const supportedPackages: {url: string; name: string}[] = [
     url: 'https://www.npmjs.com/package/react-i18next',
   },
 ]
-
