@@ -121,7 +121,7 @@ export const ExamplesList = ({onClickExample}: ExamplesListProps) => {
                   {index + 1}. {name}
                 </div>
                 {preview ? (
-                  <div className="rounded bg-gray-50 p-1 text-sm">{preview}</div>
+                  <div className="rounded text-sm">{preview}</div>
                 ) : (
                   <div className="h-full rounded bg-gray-700 p-1 text-[10px] text-white">{template}</div>
                 )}
