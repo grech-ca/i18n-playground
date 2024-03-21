@@ -5,6 +5,8 @@ import {Fragment, useState, useMemo, useEffect, useCallback} from 'react'
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import {Transition} from '@headlessui/react'
 import Link from 'next/link'
+import {MdDone, MdClose} from 'react-icons/md'
+import copy from 'copy-to-clipboard'
 
 import {EditableElement} from 'common/types/editable-element'
 
@@ -18,6 +20,8 @@ import {TemplateInput} from 'TemplateInput'
 import {Checkbox} from 'Checkbox'
 import {Format, FormatRadio} from 'FormatRadio'
 import {Example, ExamplesList} from 'ExamplesList'
+import {validateMessageFormatTemplate} from 'common/helpers'
+import {CopyButton} from 'CopyButton'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -30,6 +34,10 @@ const HomePage = () => {
       ...prev,
       [key]: value,
     }))
+
+  const handleCopy = useCallback(() => copy(template), [template])
+
+  const isTemplateValid = useMemo(() => validateMessageFormatTemplate(template), [template])
 
   const handleArgumentClick = useCallback((key: string) => {
     const argumentElement = document.querySelector(`*[data-argument-name="${key}"]`)
@@ -102,7 +110,39 @@ const HomePage = () => {
 
           <ExamplesList onClickExample={handleExampleClick} />
 
-          <TemplateInput value={template} onChange={setTemplate} />
+          <label className="grid grid-cols-[1fr_auto] gap-2">
+            <div className="col-span-2 flex gap-x-1.5">
+              <span className="font-medium">Template</span>
+              <div className="relative flex w-4 items-center justify-center">
+                <Transition
+                  show={isTemplateValid && Boolean(template)}
+                  className="absolute"
+                  enter="transition-all origin-top"
+                  enterFrom="-translate-y-2 opacity-0 scale-0"
+                  enterTo="translate-y-0 opacity-100 scale-100"
+                  leave="transition-all origin-top"
+                  leaveFrom="translate-y-0 opacity-100 scale-100"
+                  leaveTo="-translate-y-2 opacity-0 scale-0"
+                >
+                  <MdDone className="text-xl text-green-600" />
+                </Transition>
+                <Transition
+                  show={!isTemplateValid && Boolean(template)}
+                  className="absolute"
+                  enter="transition-all origin-bottom"
+                  enterFrom="translate-y-2 opacity-0 scale-0"
+                  enterTo="translate-y-0 opacity-100 scale-100"
+                  leave="transition-all origin-bottom"
+                  leaveFrom="translate-y-0 opacity-100 scale-100"
+                  leaveTo="translate-y-2 opacity-0 scale-0"
+                >
+                  <MdClose className="text-xl text-red-600" />
+                </Transition>
+              </div>
+            </div>
+            <TemplateInput value={template} onChange={setTemplate} />
+            <CopyButton onClick={handleCopy} />
+          </label>
 
           {argumentElements.length > 0 && (
             <div className="grid grid-flow-row grid-cols-2 items-start gap-2">
