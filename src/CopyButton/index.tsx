@@ -1,8 +1,9 @@
 import {useCallback, useState, useRef} from 'react'
 
+import {MdContentCopy} from 'react-icons/md'
 import {Transition} from '@headlessui/react'
-import {MdContentCopy as CopyIcon} from 'react-icons/md'
 
+import {IconButton} from 'common/IconButton'
 import {cn} from 'common/helpers'
 
 export type CopyButtonProps = {
@@ -12,7 +13,7 @@ export type CopyButtonProps = {
 
 const NOTIFICATION_TIMEOUT = 1_500
 
-export const CopyButton = ({onClick, className}: CopyButtonProps) => {
+export const CopyButton = ({className, onClick}: CopyButtonProps) => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [isNotificationVisible, setIsNotificationVisible] = useState(false)
@@ -44,16 +45,7 @@ export const CopyButton = ({onClick, className}: CopyButtonProps) => {
       >
         Copied!
       </Transition>
-      <button
-        className={cn(
-          'flex aspect-square h-10 items-center justify-center rounded-lg bg-white outline-none',
-          'focus:focus-visible:ring-4 focus:focus-visible:ring-blue-400',
-          'transition-all active:scale-90 active:bg-stone-100',
-        )}
-        onClick={handleClick}
-      >
-        <CopyIcon className="text-xl" />
-      </button>
+      <IconButton icon={MdContentCopy} onClick={handleClick} />
     </div>
   )
 }
