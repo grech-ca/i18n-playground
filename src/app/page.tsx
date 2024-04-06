@@ -17,16 +17,15 @@ import {isInputElement, isButtonElement} from 'common/type-guards'
 import {Result} from 'Result'
 import {Signature} from 'Signature'
 import {TemplateInput} from 'TemplateInput'
-import {Checkbox} from 'Checkbox'
 import {Format, FormatRadio} from 'FormatRadio'
 import {Example, ExamplesList} from 'ExamplesList'
 import {validateMessageFormatTemplate} from 'common/helpers'
 import {CopyButton} from 'CopyButton'
+import {SettingsButton} from 'SettingsButton'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
   const [values, setValues] = useState<Record<string, string>>({})
-  const [isWhitespacePreserved, setIsWhitespacePreserved] = useState(false)
   const [selectedFormat, setSelectedFormat] = useState<Format>('messageformat')
 
   const setValue = (key: string, value: string) =>
@@ -110,8 +109,8 @@ const HomePage = () => {
 
           <ExamplesList onClickExample={handleExampleClick} />
 
-          <label className="grid grid-cols-[1fr_auto] gap-2">
-            <div className="col-span-2 flex gap-x-1.5">
+          <div className="grid grid-cols-[1fr_auto_auto] gap-2">
+            <div className="col-span-3 flex gap-x-1.5">
               <span className="font-medium">Template</span>
               <div className="relative flex w-4 items-center justify-center">
                 <Transition
@@ -142,7 +141,9 @@ const HomePage = () => {
             </div>
             <TemplateInput value={template} onChange={setTemplate} />
             <CopyButton onClick={handleCopy} />
-          </label>
+
+            <SettingsButton />
+          </div>
 
           {argumentElements.length > 0 && (
             <div className="grid grid-flow-row grid-cols-2 items-start gap-2">
@@ -164,20 +165,8 @@ const HomePage = () => {
               ))}
             </div>
           )}
-
-          <Checkbox
-            onChange={setIsWhitespacePreserved}
-            checked={isWhitespacePreserved}
-            label="Enable whitespace preservation"
-          />
         </div>
-        <Result
-          isWhitespacePreserved={isWhitespacePreserved}
-          template={template}
-          elements={elements}
-          values={values}
-          onArgumentClick={handleArgumentClick}
-        />
+        <Result template={template} elements={elements} values={values} onArgumentClick={handleArgumentClick} />
       </div>
       <Signature />
     </div>

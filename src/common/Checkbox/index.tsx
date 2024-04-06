@@ -9,7 +9,7 @@ export type CheckboxProps = {
 export const Checkbox = ({onChange, checked, label}: CheckboxProps) => {
   const Icon = checked ? MdCheckBox : MdCheckBoxOutlineBlank
   return (
-    <label className="grid cursor-pointer grid-cols-[auto_1fr] items-center gap-x-2">
+    <label className="grid cursor-pointer grid-cols-[auto_1fr] gap-x-2">
       <input checked={checked} onChange={({target}) => onChange(target.checked)} type="checkbox" hidden />
 
       <Icon className="text-2xl" />

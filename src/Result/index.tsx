@@ -3,6 +3,8 @@ import {Fragment, useCallback, useEffect, useMemo, useState} from 'react'
 import {Transition} from '@headlessui/react'
 import * as ICU from '@formatjs/icu-messageformat-parser'
 
+import {useSettingsStore} from 'common/hooks'
+
 import {cn, validateMessageFormatTemplate} from 'common/helpers'
 import {Segment} from './Segment'
 
@@ -11,11 +13,11 @@ export type ResultProps = {
   elements: ICU.MessageFormatElement[]
   values: Record<string, string>
   onArgumentClick: (key: string) => void
-  isWhitespacePreserved: boolean
 }
 
-export const Result = ({template, values, elements, onArgumentClick, isWhitespacePreserved}: ResultProps) => {
+export const Result = ({template, values, elements, onArgumentClick}: ResultProps) => {
   const handleArgumentClick = useCallback((key: string) => onArgumentClick(key), [onArgumentClick])
+  const isWhitespacePreserved = useSettingsStore((state) => state.isWhitespacePreservationEnabled)
 
   const [isResultShown, setIsResultShown] = useState(false)
 
