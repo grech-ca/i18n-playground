@@ -4,7 +4,6 @@ import {useState, useMemo, useEffect, useCallback} from 'react'
 
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import {Transition} from '@headlessui/react'
-import copy from 'copy-to-clipboard'
 
 import {EditableElement} from 'common/types/editable-element'
 
@@ -15,11 +14,7 @@ import {Signature} from 'Signature'
 import {TemplateInput} from 'TemplateInput'
 import {Format, FormatRadio} from 'FormatRadio'
 import {Example, ExamplesList} from 'ExamplesList'
-import {validateMessageFormatTemplate} from 'common/helpers'
-import {CopyButton} from 'CopyButton'
-import {SettingsButton} from 'SettingsButton'
 import {Hero} from 'Hero'
-import {ValidationIndicator} from 'ValidationIndicator'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -31,10 +26,6 @@ const HomePage = () => {
       ...prev,
       [key]: value,
     }))
-
-  const handleCopy = useCallback(() => copy(template), [template])
-
-  const isTemplateValid = useMemo(() => validateMessageFormatTemplate(template), [template])
 
   const handleArgumentClick = useCallback((key: string) => {
     const argumentElement = document.querySelector(`*[data-argument-name="${key}"]`)
@@ -88,19 +79,8 @@ const HomePage = () => {
 
         <div className="grid w-full gap-y-4 rounded-2xl bg-gray-200 p-5 md:w-[36rem]">
           <FormatRadio value={selectedFormat} onChange={setSelectedFormat} />
-
           <ExamplesList onClickExample={handleExampleClick} />
-
-          <div className="grid grid-cols-[1fr_auto_auto] gap-2">
-            <div className="col-span-3 flex gap-x-1.5">
-              <span className="font-medium">Template</span>
-              <ValidationIndicator isValid={template ? isTemplateValid : null} />
-            </div>
-            <TemplateInput value={template} onChange={setTemplate} />
-            <CopyButton onClick={handleCopy} />
-
-            <SettingsButton />
-          </div>
+          <TemplateInput value={template} onChange={setTemplate} />
 
           {argumentElements.length > 0 && (
             <div className="grid grid-flow-row grid-cols-2 items-start gap-2">
