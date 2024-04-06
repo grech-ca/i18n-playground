@@ -105,7 +105,7 @@ export const ExamplesList = ({onClickExample}: ExamplesListProps) => {
             static
             className={cn('-mb-5 flex w-full gap-x-3 p-1 pb-5 transition-all', {
               'mt-2 overflow-x-auto opacity-100': open,
-              'mt-0 overflow-hidden opacity-0': !open,
+              'pointer-events-none mt-0 overflow-hidden opacity-0': !open,
             })}
           >
             {examples.map(({name, template, preview}, index) => (
