@@ -4,7 +4,6 @@ import {useState, useMemo, useEffect, useCallback} from 'react'
 
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import {Transition} from '@headlessui/react'
-import {MdDone, MdClose} from 'react-icons/md'
 import copy from 'copy-to-clipboard'
 
 import {EditableElement} from 'common/types/editable-element'
@@ -20,6 +19,7 @@ import {validateMessageFormatTemplate} from 'common/helpers'
 import {CopyButton} from 'CopyButton'
 import {SettingsButton} from 'SettingsButton'
 import {Hero} from 'Hero'
+import {ValidationIndicator} from 'ValidationIndicator'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -94,32 +94,7 @@ const HomePage = () => {
           <div className="grid grid-cols-[1fr_auto_auto] gap-2">
             <div className="col-span-3 flex gap-x-1.5">
               <span className="font-medium">Template</span>
-              <div className="relative flex w-4 items-center justify-center">
-                <Transition
-                  show={isTemplateValid && Boolean(template)}
-                  className="absolute"
-                  enter="transition-all origin-top"
-                  enterFrom="-translate-y-2 opacity-0 scale-0"
-                  enterTo="translate-y-0 opacity-100 scale-100"
-                  leave="transition-all origin-top"
-                  leaveFrom="translate-y-0 opacity-100 scale-100"
-                  leaveTo="-translate-y-2 opacity-0 scale-0"
-                >
-                  <MdDone className="text-xl text-green-600" />
-                </Transition>
-                <Transition
-                  show={!isTemplateValid && Boolean(template)}
-                  className="absolute"
-                  enter="transition-all origin-bottom"
-                  enterFrom="translate-y-2 opacity-0 scale-0"
-                  enterTo="translate-y-0 opacity-100 scale-100"
-                  leave="transition-all origin-bottom"
-                  leaveFrom="translate-y-0 opacity-100 scale-100"
-                  leaveTo="translate-y-2 opacity-0 scale-0"
-                >
-                  <MdClose className="text-xl text-red-600" />
-                </Transition>
-              </div>
+              <ValidationIndicator isValid={template ? isTemplateValid : null} />
             </div>
             <TemplateInput value={template} onChange={setTemplate} />
             <CopyButton onClick={handleCopy} />
