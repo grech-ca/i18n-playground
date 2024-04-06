@@ -1,16 +1,13 @@
 'use client'
 
-import {Fragment, useState, useMemo, useEffect, useCallback} from 'react'
+import {useState, useMemo, useEffect, useCallback} from 'react'
 
 import * as ICU from '@formatjs/icu-messageformat-parser'
 import {Transition} from '@headlessui/react'
-import Link from 'next/link'
 import {MdDone, MdClose} from 'react-icons/md'
 import copy from 'copy-to-clipboard'
 
 import {EditableElement} from 'common/types/editable-element'
-
-import {supportedPackages} from 'common/data'
 
 import {ArgumentInput} from 'ArgumentInput'
 import {isInputElement, isButtonElement} from 'common/type-guards'
@@ -22,6 +19,7 @@ import {Example, ExamplesList} from 'ExamplesList'
 import {validateMessageFormatTemplate} from 'common/helpers'
 import {CopyButton} from 'CopyButton'
 import {SettingsButton} from 'SettingsButton'
+import {Hero} from 'Hero'
 
 const HomePage = () => {
   const [template, setTemplate] = useState('')
@@ -86,24 +84,8 @@ const HomePage = () => {
   return (
     <div className="grid h-full grid-rows-[1fr_auto] gap-y-10 p-6 pb-[10dvh] pt-[24dvh]">
       <div className="flex flex-col items-center justify-center gap-y-4">
-        <div className="mb-6 grid gap-y-5 text-center text-white">
-          <h1 className="text-4xl font-medium md:text-5xl">🌍 i18n Playground</h1>
-          <p className="text-xl">
-            <span>Debug</span>{' '}
-            {supportedPackages.map(({name, url}, index, array) => (
-              <Fragment key={name}>
-                <Link
-                  href={url}
-                  className="relative inline-block transition-transform after:absolute after:inset-x-0 after:top-[95%] after:h-0.5 after:bg-white active:scale-95"
-                  target="_blank"
-                >
-                  {name}
-                </Link>
-                {index < array.length - 1 && ', '}
-              </Fragment>
-            ))}
-          </p>
-        </div>
+        <Hero />
+
         <div className="grid w-full gap-y-4 rounded-2xl bg-gray-200 p-5 md:w-[36rem]">
           <FormatRadio value={selectedFormat} onChange={setSelectedFormat} />
 
