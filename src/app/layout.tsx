@@ -3,7 +3,7 @@ import {PropsWithChildren} from 'react'
 
 import {Inter} from 'next/font/google'
 import {Metadata} from 'next'
-import Script from 'next/script'
+import PlausibleProvider from 'next-plausible'
 
 import {cn} from 'common/helpers'
 
@@ -36,7 +36,7 @@ const RootLayout = ({children}: PropsWithChildren) => {
   return (
     <html lang="en">
       <head>
-        <Script defer data-domain="i18n-playground.com" src="https://plausible.io/js/script.js" />
+        <PlausibleProvider domain="i18n-playground.com" />
       </head>
       <body className={cn(inter.className, 'bg-slate-900')}>{children}</body>
     </html>
