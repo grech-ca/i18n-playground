@@ -3,7 +3,7 @@ import {PropsWithChildren} from 'react'
 
 import {Inter} from 'next/font/google'
 import {Metadata} from 'next'
-import PlausibleProvider from 'next-plausible'
+import Script from 'next/script'
 
 import {cn} from 'common/helpers'
 
@@ -36,7 +36,21 @@ const RootLayout = ({children}: PropsWithChildren) => {
   return (
     <html lang="en">
       <head>
-        <PlausibleProvider domain="i18n-playground.com" />
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-E7NY2W59JZ" />
+
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+        ></Script>
+        <Script id="ga-script">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}');
+          `}
+        </Script>
       </head>
       <body className={cn(inter.className, 'bg-slate-900')}>{children}</body>
     </html>
